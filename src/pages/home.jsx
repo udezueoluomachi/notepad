@@ -12,16 +12,13 @@ import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
 
 
+
 function Home() {
 
     const navigation = useNavigation()
 
   return (
     <SafeAreaView>
-      <StatusBar
-        backgroundColor={Colors['white-1']}
-        barStyle="dark-content"
-      />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         >
