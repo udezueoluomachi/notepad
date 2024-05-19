@@ -1,27 +1,19 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import Colors from './color.config';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './src/pages/home';
+import EditView from './src/pages/EditView';
 
+const Stack = createNativeStackNavigator();
 
 function App() {
 
   return (
-    <SafeAreaView>
-      <StatusBar
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        >
-        <Text>Hello</Text>
-      </ScrollView>
-    </SafeAreaView> 
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown:false }}>
+        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='EditView' component={EditView} />
+      </Stack.Navigator>
+    </NavigationContainer> 
   );
 }
 
