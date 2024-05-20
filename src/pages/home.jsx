@@ -27,7 +27,7 @@ function Home() {
               color : Colors['black-1'],
               fontSize : 40,
               fontFamily : "Inter-Variable",
-              fontWeight : "400"
+              fontWeight : "650"
             }}>Notes</Text>
           </View>
           <Btn style={styles.searchBarCont} text="Search notes" textStyle={styles.searchBarText} />
@@ -35,16 +35,13 @@ function Home() {
             contentInsetAdjustmentBehavior="automatic"
             >
             <Text>Hello</Text>
-            <Btn
-                onPress={() => navigation.navigate('EditView')}
-                text='navigate'
-                style={{
-                  backgroundColor : Colors.cream,
-                  width : 200,
-                  padding : 5
-                }}
-            />
           </ScrollView>
+          <Btn
+              onPress={() => navigation.navigate('EditView')}
+              text='+'
+              style={styles.NewNoteBtn}
+              textStyle={styles.NewNoteBtnText}
+          />
       </View>
     </SafeAreaView> 
   );
@@ -62,7 +59,23 @@ const styles = ScaledSheet.create({
   },
   searchBarText : {
     color : Colors['black-1'],
-    fontSize : 16
+    fontSize : 16,
+    opacity : 0.7,
+    fontFamily : "Inter-Variable",
+    fontWeight : '100'
+  },
+  NewNoteBtn : {
+    height : "33@vs",
+    width : "33@vs",
+    backgroundColor : Colors.cream,
+    borderRadius : 100,
+    position : "static",
+    left : "45%",
+    padding : "10@vs",
+  },
+  NewNoteBtnText : {
+    color : Colors['white-1'],
+    fontFamily : "Inter-Variable"
   }
 })
 
