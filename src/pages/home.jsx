@@ -7,15 +7,15 @@ import {
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
-import {Btn} from "../components/Buttons"
 import { ScaledSheet } from 'react-native-size-matters'
+import {Btn} from "../components/Buttons"
 import DisplayCard from '../components/DisplayCard';
 
 
 
 function Home() {
 
-    const navigation = useNavigation()
+  const navigation = useNavigation()
 
   return (
     <SafeAreaView>
