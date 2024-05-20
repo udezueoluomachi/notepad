@@ -50,7 +50,7 @@ const styles = ScaledSheet.create({
         fontSize : "12@ms",
         fontWeight : "light",
         color : Colors["black-1"],
-        opacity : 0.7,
+        opacity : 0.5,
         marginTop : 6
     }
 })

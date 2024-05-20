@@ -20,19 +20,19 @@ function Home() {
   return (
     <SafeAreaView>
       <View
-        style={{backgroundColor : Colors['white-1'], height : "100%", paddingTop : 22, paddingHorizontal : 13}}
+        style={{backgroundColor : Colors['white-1'], height : "100%", paddingTop : 22}}
         >
-          <View>
+          <View style={{paddingHorizontal : 13}}>
             <Text style={{
               color : Colors['black-1'],
               fontSize : 40,
               fontFamily : "Inter-Variable",
               fontWeight : "650"
             }}>Notes</Text>
+            <Btn style={styles.searchBarCont} text="Search notes" textStyle={styles.searchBarText} />
           </View>
-          <Btn style={styles.searchBarCont} text="Search notes" textStyle={styles.searchBarText} />
           <ScrollView
-            style={{marginTop : 22}}
+            style={{marginTop : 22, paddingHorizontal : 13}}
             contentInsetAdjustmentBehavior="automatic"
             >
             <DisplayCard />
@@ -84,7 +84,7 @@ const styles = ScaledSheet.create({
     backgroundColor : Colors['cream'],
     borderRadius : 100,
     position : "absolute",
-    left : "46%",
+    left : "44%",
     bottom : 20,
     padding : "10@vs",
     elevation: 5,
