@@ -3,8 +3,7 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  View,
-  Button
+  View
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
@@ -49,16 +48,13 @@ function Home() {
             <DisplayCard />
             <DisplayCard />
             <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
           </ScrollView>
           <Btn
               onPress={() => navigation.navigate('EditView')}
               text='+'
               style={styles.NewNoteBtn}
               textStyle={styles.NewNoteBtnText}
+              elevation={1}
           />
       </View>
     </SafeAreaView> 
@@ -67,7 +63,7 @@ function Home() {
 
 const styles = ScaledSheet.create({
   searchBarCont : {
-    height : "36@mvs",
+    height : "36@vs",
     width : "100%",
     backgroundColor : Colors.cream,
     borderRadius : 100,
@@ -83,13 +79,19 @@ const styles = ScaledSheet.create({
     fontWeight : '100'
   },
   NewNoteBtn : {
-    height : "33@vs",
-    width : "33@vs",
-    backgroundColor : Colors.cream,
+    height : "43@vs",
+    width : "43@vs",
+    backgroundColor : Colors['cream'],
     borderRadius : 100,
-    position : "static",
-    left : "45%",
+    position : "absolute",
+    left : "46%",
+    bottom : 20,
     padding : "10@vs",
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   NewNoteBtnText : {
     color : Colors['white-1'],

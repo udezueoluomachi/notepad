@@ -6,7 +6,7 @@ import {
 
 export const Btn = props => {
     return (
-        <TouchableOpacity style={props.style} onPress={props.onPress}>
+        <TouchableOpacity style={props.style} activeOpacity={0.9} onPress={props.onPress}>
             <Text style={props.textStyle}>
                 {props.text}
             </Text>
