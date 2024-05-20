@@ -9,7 +9,8 @@ import {
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
 import {Btn} from "../components/Buttons"
-import { ScaledSheet } from 'react-native-size-matters';
+import { ScaledSheet } from 'react-native-size-matters'
+import DisplayCard from '../components/DisplayCard';
 
 
 
@@ -32,9 +33,26 @@ function Home() {
           </View>
           <Btn style={styles.searchBarCont} text="Search notes" textStyle={styles.searchBarText} />
           <ScrollView
+            style={{marginTop : 22}}
             contentInsetAdjustmentBehavior="automatic"
             >
-            <Text>Hello</Text>
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
+            <DisplayCard />
           </ScrollView>
           <Btn
               onPress={() => navigation.navigate('EditView')}
