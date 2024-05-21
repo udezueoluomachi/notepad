@@ -1,12 +1,15 @@
 import { View, Text, TouchableOpacity } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
 import Colors from "../../color.config";
+import { useNavigation } from "@react-navigation/native";
 
 const DisplayCard = (props) => {
+    const navigation = useNavigation();
     return (
         <TouchableOpacity 
             style={styles.card}
             activeOpacity={0.7}
+            onPress={() => navigation.navigate("EditView")}
         >
         <Text style={styles.title}>
             Welcome to Notes
