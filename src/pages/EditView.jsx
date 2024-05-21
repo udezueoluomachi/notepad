@@ -29,8 +29,8 @@ function EditView() {
       style={{marginTop : 22, paddingHorizontal : 13}}>
           <Text style={styles.lastUpdated}>{moment(new Date("Tue May 21 2024 11:09:26 GMT+0100")).calendar()}</Text>
       </View>
-      <TextInput placeholder='Title' style={{...styles.title, ...styles.inputContainer}} />
-      <TextInput placeholder='Note something down.' />
+      <TextInput placeholder='Title' style={{...styles.title, ...styles.input}} />
+      <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} />
     </View>
   );
 }
@@ -45,7 +45,7 @@ const styles = ScaledSheet.create({
     flexDirection : "row",
     alignItems : "center",
     paddingHorizontal : 13,
-    paddingVertical : 2,
+    paddingVertical : 2, 
   },
   pageTitle : {
     color : Colors['black-1'],
@@ -65,12 +65,21 @@ const styles = ScaledSheet.create({
     fontSize : 16,
     opacity : 0.7,
     fontFamily : "Inter-Variable",
-    fontWeight : '100',
+    fontWeight : 'bold',
     height: "40@vs",
     width: "100%"
   },
-  inputContainer : {
+  input : {
     paddingHorizontal : 13
+  },
+  note : {
+    color : Colors['black-1'],
+    fontSize : 14,
+    opacity : 0.7,
+    fontFamily : "Inter-Variable",
+    fontWeight : 'regular',
+    height: "auto",
+    width: "100%",
   }
 })
 
