@@ -26,13 +26,11 @@ function EditView() {
           </View>
       </View>
       <View
-      style={{marginTop : 22, paddingHorizontal : 13, height : "100%"}}>
+      style={{marginTop : 22, paddingHorizontal : 13}}>
           <Text style={styles.lastUpdated}>{moment(new Date("Tue May 21 2024 11:09:26 GMT+0100")).calendar()}</Text>
       </View>
-        <TextInput placeholder='Title' style={styles.title} value='Hello' />
-      <View>
-        <TextInput placeholder='Note something down.' />
-      </View>
+      <TextInput placeholder='Title' style={{...styles.title, ...styles.inputContainer}} />
+      <TextInput placeholder='Note something down.' />
     </View>
   );
 }
@@ -68,9 +66,11 @@ const styles = ScaledSheet.create({
     opacity : 0.7,
     fontFamily : "Inter-Variable",
     fontWeight : '100',
-    marginLeft : 9,
     height: "40@vs",
     width: "100%"
+  },
+  inputContainer : {
+    paddingHorizontal : 13
   }
 })
 
