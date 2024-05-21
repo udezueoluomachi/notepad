@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/pages/home';
 import EditView from './src/pages/EditView';
+import Search from './src/pages/Search';
 import Colors from './color.config';
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,7 @@ function App() {
         <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown:false }}>
           <Stack.Screen name='Home' component={Home} />
           <Stack.Screen name='EditView' component={EditView} />
+          <Stack.Screen name='Search' component={Search} />
         </Stack.Navigator>
       </NavigationContainer> 
     </>

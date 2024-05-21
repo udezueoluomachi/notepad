@@ -3,13 +3,15 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
 import { ScaledSheet } from 'react-native-size-matters'
 import {Btn} from "../components/Buttons"
 import DisplayCard from '../components/DisplayCard';
+import { Iconify } from 'react-native-iconify';
 
 
 
@@ -29,9 +31,17 @@ function Home() {
               fontFamily : "Inter-Variable",
               fontWeight : "650"
             }}>Notes</Text>
-            <Btn style={styles.searchBarCont} text="Search notes" textStyle={styles.searchBarText} />
+            <TouchableOpacity 
+            style={styles.searchBarCont}
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate("Search")}
+            >
+              <Iconify icon="iconamoon:search-thin" size={24} color={Colors['black-1']} style={{opacity : 0.7}} />
+              <Text style={styles.searchBarText}>Search notes</Text>
+            </TouchableOpacity>
           </View>
           <ScrollView
+            showsVerticalScrollIndicator={false}
             style={{marginTop : 22, paddingHorizontal : 13}}
             contentInsetAdjustmentBehavior="automatic"
             >
@@ -51,9 +61,8 @@ function Home() {
           </ScrollView>
           <Btn
               onPress={() => navigation.navigate('EditView')}
-              text='+'
+              text={<Iconify icon="lucide:plus" size={40} color={Colors['white-1']} />}
               style={styles.NewNoteBtn}
-              textStyle={styles.NewNoteBtnText}
               elevation={1}
           />
       </View>
@@ -63,20 +72,22 @@ function Home() {
 
 const styles = ScaledSheet.create({
   searchBarCont : {
+    flexDirection : 'row',
     height : "36@vs",
     width : "100%",
     backgroundColor : Colors.cream,
     borderRadius : 100,
     marginTop : 18,
     paddingHorizontal : 13,
-    paddingVertical : "8.5@vs"
+    paddingVertical : "8.5@vs",
   },
   searchBarText : {
     color : Colors['black-1'],
     fontSize : 16,
     opacity : 0.7,
     fontFamily : "Inter-Variable",
-    fontWeight : '100'
+    fontWeight : '100',
+    marginLeft : 9
   },
   NewNoteBtn : {
     height : "43@vs",
@@ -84,18 +95,15 @@ const styles = ScaledSheet.create({
     backgroundColor : Colors['cream'],
     borderRadius : 100,
     position : "absolute",
-    left : "44%",
+    left : "43%",
     bottom : 20,
-    padding : "10@vs",
+    justifyContent : "center",
+    alignItems : "center",
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  },
-  NewNoteBtnText : {
-    color : Colors['white-1'],
-    fontFamily : "Inter-Variable"
   }
 })
 
