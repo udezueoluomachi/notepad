@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import Colors from "../../color.config";
 import { Iconify } from "react-native-iconify";
 import moment from 'moment';
-import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
+import {setItem, getItem, } from "../functions/encrypted-storage"
 
 
 function EditView({route}) {
@@ -21,6 +21,31 @@ function EditView({route}) {
   const [time, setTime] = useState(new Date().toString())
 
   const {noteIndex} = route.params;
+
+  const saveNote = async () => {
+    const notes = JSON.parse(await getItem("notes")).reverse();
+    if(title !="" || note !="") {
+      if(noteIndex != "new") {
+        notes[noteIndex].date = time;
+        notes[noteIndex].title = title;
+        notes[noteIndex].note = note;
+        await setItem("notes", JSON.stringify(notes.reverse()))
+      }
+      else {
+        console.log({
+          date : time,
+          title : title,
+          note : note
+        })
+      }
+    }
+    else {
+      if(noteIndex != "new") {
+        notes.splice(noteIndex,1)
+        await setItem("notes", JSON.stringify(notes.reverse()))
+      }
+    }
+  }
 
   useEffect(() => {
     (async () => {
@@ -49,9 +74,18 @@ function EditView({route}) {
           <Text style={styles.lastUpdated}>{moment(new Date(time)).calendar()}</Text>
       </View>
       <TextInput placeholder='Title' style={{...styles.title, ...styles.input}}
-        value={title} onChangeText={text => setTitle(text)} />
+        value={title} onChangeText={text => {
+          setTitle(text)
+          saveNote()
+          setTime(new Date().toString())
+        }} />
       <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} multiline
-        value={note} onChangeText={text => setNote(text)} />
+        value={note} onChangeText={text => {
+          setNote(text)
+          console.log(note)
+          saveNote()
+          setTime(new Date().toString())
+          }} />
     </View>
   );
 }
