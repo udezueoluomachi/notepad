@@ -85,7 +85,7 @@ Feel free to tell us your comments or suggestions.
               {notesToDisplay}
           </ScrollView>
           <Btn
-              onPress={() => navigation.navigate('EditView')}
+              onPress={() => navigation.navigate('EditView', {noteIndex : "new"})}
               text={<Iconify icon="lucide:plus" size={40} color={Colors['white-1']} />}
               style={styles.NewNoteBtn}
               elevation={1}

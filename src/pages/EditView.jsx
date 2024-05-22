@@ -13,15 +13,25 @@ import moment from 'moment';
 import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
 
 
-function EditView() {
+function EditView({route}) {
   const navigation = useNavigation();
 
   const [title, setTitle] = useState("")
   const [note, setNote] = useState("")
-  const [lastUpdated, setLastUpdated] = useState("")
+  const [time, setTime] = useState(new Date().toString())
+
+  const {noteIndex} = route.params;
 
   useEffect(() => {
-    
+    (async () => {
+      const notes = JSON.parse(await getItem("notes")).reverse();
+      if(noteIndex != "new") {
+        const content = notes[noteIndex]
+        setTime(content.time)
+        setTitle(content.title)
+        setNote(content.note)
+      }
+    })();
   },[])
 
   return (
@@ -36,7 +46,7 @@ function EditView() {
       </View>
       <View
       style={{marginTop : 22, paddingHorizontal : 13}}>
-          <Text style={styles.lastUpdated}>{moment(new Date("Tue May 21 2024 11:09:26 GMT+0100")).calendar()}</Text>
+          <Text style={styles.lastUpdated}>{moment(new Date(time)).calendar()}</Text>
       </View>
       <TextInput placeholder='Title' style={{...styles.title, ...styles.input}}
         value={title} onChangeText={text => setTitle(text.trim())} />
