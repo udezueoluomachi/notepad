@@ -21,14 +21,15 @@ function EditView({route}) {
   const [time, setTime] = useState(new Date().toString())
 
   const {noteIndex} = route.params;
+  let index = noteIndex
 
   const saveNote = async () => {
     const notes = JSON.parse(await getItem("notes")).reverse();
     if(title !="" || note !="") {
-      if(noteIndex != "new") {
-        notes[noteIndex].date = time;
-        notes[noteIndex].title = title;
-        notes[noteIndex].note = note;
+      if(index != "new") {
+        notes[index].date = time;
+        notes[index].title = title;
+        notes[index].note = note;
         await setItem("notes", JSON.stringify(notes.reverse()))
       }
       else {
@@ -40,8 +41,8 @@ function EditView({route}) {
       }
     }
     else {
-      if(noteIndex != "new") {
-        notes.splice(noteIndex,1)
+      if(index != "new") {
+        notes.splice(index,1)
         await setItem("notes", JSON.stringify(notes.reverse()))
       }
     }
@@ -50,11 +51,21 @@ function EditView({route}) {
   useEffect(() => {
     (async () => {
       const notes = JSON.parse(await getItem("notes")).reverse();
-      if(noteIndex != "new") {
-        const content = notes[noteIndex]
+      if(index != "new") {
+        const content = notes[index]
         setTime(content.date)
         setTitle(content.title)
         setNote(content.note)
+      }
+      else {
+        index = notes.length;
+        notes.reverse();
+        notes.push({
+          date : time,
+          title : title,
+          note : note
+        })
+        await setItem("notes", JSON.stringify(notes))
       }
     })();
   },[])
@@ -82,7 +93,6 @@ function EditView({route}) {
       <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} multiline
         value={note} onChangeText={text => {
           setNote(text)
-          console.log(note)
           saveNote()
           setTime(new Date().toString())
           }} />
