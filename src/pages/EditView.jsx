@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import Colors from "../../color.config";
 import { Iconify } from "react-native-iconify";
 import moment from 'moment';
-import {setItem, getItem, } from "../functions/encrypted-storage"
+import {setItem, getItem, } from "../functions/encrypted-storage";
 
 
 function EditView({route}) {
@@ -33,6 +33,8 @@ function EditView({route}) {
         await setItem("notes", JSON.stringify(notes.reverse()))
       }
       else {
+        notes.reverse();
+        //
         console.log({
           date : time,
           title : title,
