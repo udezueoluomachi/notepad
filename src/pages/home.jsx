@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -12,12 +12,49 @@ import { ScaledSheet } from 'react-native-size-matters'
 import {Btn} from "../components/Buttons"
 import DisplayCard from '../components/DisplayCard';
 import { Iconify } from 'react-native-iconify';
+import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
+import moment from 'moment';
 
 
 
 function Home() {
+  const listOfNotes = []
+  const [notesToDisplay, setNotesToDisplay] = useState(<Text style={{
+    textAlign : "center",
+    color : Colors['black-1'],
+    fontFamily : "Inter-Variable",
+    fontSize : 14
+  }}>Your notes would appear here. Click the "+" button to create a new note</Text>)
 
   const navigation = useNavigation()
+  useEffect( () => {
+    (async () => {
+      const notes = await getItem("notes")
+      if(!notes) {
+        await setItem("notes", JSON.stringify([{
+          date : new Date().toString(),
+          title : "Welcome to Notes",
+          note : `
+Welcome! Capture anything with Notes on.
+
+Create a note by tapping "+" in the bottom-right corner of the homepage.
+
+Feel free to tell us your comments or suggestions.
+          `
+        }]))
+      }
+      listOfNotes.push(...JSON.parse(await getItem("notes")).reverse())
+      setNotesToDisplay(listOfNotes.map(content => {
+        return (
+          <DisplayCard key={listOfNotes.indexOf(content)} index={listOfNotes.indexOf(content)}
+            title={content.title.slice(0, 50).trim() ?? content.note.slice(0, 50).trim()}
+            note={!content.title ? "" : content.note.slice(0, 50).trim()}
+            time={moment(new Date(content.date)).calendar()}
+          />
+        )
+      }))
+    })();
+  },[])
 
   return (
     <SafeAreaView>
@@ -45,19 +82,7 @@ function Home() {
             style={{marginTop : 22, paddingHorizontal : 13}}
             contentInsetAdjustmentBehavior="automatic"
             >
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
-            <DisplayCard />
+              {notesToDisplay}
           </ScrollView>
           <Btn
               onPress={() => navigation.navigate('EditView')}

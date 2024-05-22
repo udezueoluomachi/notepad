@@ -1,4 +1,4 @@
-import React from 'react';
+import {useRef, useState, useEffect} from 'react';
 import {
   Text,
   TextInput,
@@ -10,10 +10,19 @@ import { useNavigation } from "@react-navigation/native";
 import Colors from "../../color.config";
 import { Iconify } from "react-native-iconify";
 import moment from 'moment';
+import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
 
 
 function EditView() {
   const navigation = useNavigation();
+
+  const [title, setTitle] = useState("")
+  const [note, setNote] = useState("")
+  const [lastUpdated, setLastUpdated] = useState("")
+
+  useEffect(() => {
+    
+  },[])
 
   return (
     <View style={styles.screen} >
@@ -29,8 +38,10 @@ function EditView() {
       style={{marginTop : 22, paddingHorizontal : 13}}>
           <Text style={styles.lastUpdated}>{moment(new Date("Tue May 21 2024 11:09:26 GMT+0100")).calendar()}</Text>
       </View>
-      <TextInput placeholder='Title' style={{...styles.title, ...styles.input}} />
-      <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} />
+      <TextInput placeholder='Title' style={{...styles.title, ...styles.input}}
+        value={title} onChangeText={text => setTitle(text.trim())} />
+      <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}}
+        value={note} onChangeText={text => setNote(text.trim())} />
     </View>
   );
 }
