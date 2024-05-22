@@ -27,7 +27,7 @@ function EditView({route}) {
       const notes = JSON.parse(await getItem("notes")).reverse();
       if(noteIndex != "new") {
         const content = notes[noteIndex]
-        setTime(content.time)
+        setTime(content.date)
         setTitle(content.title)
         setNote(content.note)
       }
@@ -49,9 +49,9 @@ function EditView({route}) {
           <Text style={styles.lastUpdated}>{moment(new Date(time)).calendar()}</Text>
       </View>
       <TextInput placeholder='Title' style={{...styles.title, ...styles.input}}
-        value={title} onChangeText={text => setTitle(text.trim())} />
-      <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}}
-        value={note} onChangeText={text => setNote(text.trim())} />
+        value={title} onChangeText={text => setTitle(text)} />
+      <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} multiline
+        value={note} onChangeText={text => setNote(text)} />
     </View>
   );
 }

@@ -15,8 +15,6 @@ import { Iconify } from 'react-native-iconify';
 import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
 import moment from 'moment';
 
-
-
 function Home() {
   const listOfNotes = []
   const [notesToDisplay, setNotesToDisplay] = useState(<Text style={{
@@ -34,21 +32,19 @@ function Home() {
         await setItem("notes", JSON.stringify([{
           date : new Date().toString(),
           title : "Welcome to Notes",
-          note : `
-Welcome! Capture anything with Notes on.
+          note : `Welcome! Capture anything with Notes on.
 
 Create a note by tapping "+" in the bottom-right corner of the homepage.
 
-Feel free to tell us your comments or suggestions.
-          `
+Feel free to tell us your comments or suggestions.`
         }]))
       }
       listOfNotes.push(...JSON.parse(await getItem("notes")).reverse())
       setNotesToDisplay(listOfNotes.map(content => {
         return (
           <DisplayCard key={listOfNotes.indexOf(content)} index={listOfNotes.indexOf(content)}
-            title={content.title.slice(0, 50).trim() ?? content.note.slice(0, 50).trim()}
-            note={!content.title ? "" : content.note.slice(0, 50).trim()}
+            title={content.title.slice(0, 40).trim() ?? content.note.slice(0, 40).trim()}
+            note={!content.title ? "" : content.note.slice(0, 40).trim()}
             time={moment(new Date(content.date)).calendar()}
           />
         )
