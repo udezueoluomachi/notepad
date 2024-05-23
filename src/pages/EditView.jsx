@@ -34,12 +34,6 @@ function EditView({route}) {
       }
       else {
         notes.reverse();
-        //
-        console.log({
-          date : time,
-          title : title,
-          note : note
-        })
       }
     }
     else {
@@ -60,7 +54,6 @@ function EditView({route}) {
         setNote(content.note)
       }
       else {
-        index = notes.length;
         notes.reverse();
         notes.push({
           date : time,
