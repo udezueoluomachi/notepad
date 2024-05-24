@@ -19,29 +19,14 @@ function EditView({route}) {
   const [title, setTitle] = useState("")
   const [note, setNote] = useState("")
   const [time, setTime] = useState(new Date().toString())
+  const [newNoteIndex, setNewNoteIndex] = useState(0)
 
   const {noteIndex} = route.params;
   let index = noteIndex
 
   const saveNote = async () => {
     const notes = JSON.parse(await getItem("notes")).reverse();
-    if(title !="" || note !="") {
-      if(index != "new") {
-        notes[index].date = time;
-        notes[index].title = title;
-        notes[index].note = note;
-        await setItem("notes", JSON.stringify(notes.reverse()))
-      }
-      else {
-        notes.reverse();
-      }
-    }
-    else {
-      if(index != "new") {
-        notes.splice(index,1)
-        await setItem("notes", JSON.stringify(notes.reverse()))
-      }
-    }
+    console.log(notes)
   }
 
   useEffect(() => {
