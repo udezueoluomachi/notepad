@@ -24,7 +24,7 @@ function EditView({route}) {
 
   const saveNote = async () => {
     const notes = JSON.parse(await getItem("notes")).reverse();
-    if(title.trim() != "" && note.trim() != "") {
+    if(/*title.trim() != "" && note.trim() != ""*/ true) {
       //save
       if(noteIndex != "new") {
         notes[noteIndex] = {
