@@ -4,7 +4,8 @@ import {
   ScrollView,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
@@ -17,12 +18,19 @@ import moment from 'moment';
 
 function Home({route}) {
   const listOfNotes = []
+  const [modalVisible, setModalVisibility] = useState(false)
   const [notesToDisplay, setNotesToDisplay] = useState(<Text style={{
     textAlign : "center",
     color : Colors['black-1'],
     fontFamily : "Inter-Variable",
     fontSize : 14
   }}>Your notes would appear here. Click the "+" button to create a new note</Text>)
+  const [itemIndex, setIndex] = useState(0);
+  const deleteNote = async (index) => {
+    const notes = JSON.parse(await getItem("notes")).reverse()
+    const newNotes = notes.filter((note, i) => i !== index )
+    await setItem("notes", JSON.stringify(newNotes.reverse()))
+  }
 
   const navigation = useNavigation()
   useEffect( () => {
@@ -36,7 +44,9 @@ function Home({route}) {
 
 Create a note by tapping "+" in the bottom-right corner of the homepage.
 
-Feel free to tell us your comments or suggestions.`
+Feel free to tell us your comments or suggestions.
+
+Longpress a note to delete it.`
         }]))
       }
       listOfNotes.push(...JSON.parse(await getItem("notes")).reverse())
@@ -47,6 +57,10 @@ Feel free to tell us your comments or suggestions.`
               title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}
               note={!content.title ? "" : content.note.slice(0, 40).trim()}
               time={moment(new Date(content.date)).calendar()}
+              onLongPress={() => {
+                setIndex(listOfNotes.indexOf(content));
+                setModalVisibility(true)
+              }}
             />
           )
         }
@@ -56,6 +70,35 @@ Feel free to tell us your comments or suggestions.`
 
   return (
     <SafeAreaView>
+      
+      <Modal
+      animationType="fade"
+      transparent={true}
+      visible={modalVisible}
+      >
+          <View style={{backgroundColor : `${Colors["black-1"]}33`, width : "100%", height : "100%"}}>
+              <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                      <Text style={styles.modalText}>Delete Note ?</Text>
+                      <View style={{flexDirection : "row", width : "auto"}}>
+                          <TouchableOpacity
+                          style={[styles.button, styles.buttonOpen, {marginHorizontal : 10}]}
+                          onPress={() => {
+                            deleteNote(itemIndex)
+                            setModalVisibility(false)
+                          }} activeOpacity={0.7}>
+                              <Text style={styles.textStyle}>Delete</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                          style={[styles.button, styles.buttonClose, {marginHorizontal : 10}]}
+                          onPress={() => setModalVisibility(false)} activeOpacity={0.7}>
+                              <Text style={styles.textStyle}>Cancel</Text>
+                          </TouchableOpacity>
+                      </View>
+                  </View>
+              </View>
+          </View>
+      </Modal>
       <View
         style={{backgroundColor : Colors['white-1'], height : "100%", paddingTop : 22}}
         >
@@ -94,6 +137,48 @@ Feel free to tell us your comments or suggestions.`
 }
 
 const styles = ScaledSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalView: {
+    margin: "20@ms",
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 35,
+    width : "300@ms",
+    height : "100@vs",
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: "4@ms",
+    padding: 10,
+  },
+  buttonOpen: {
+    backgroundColor: '#FF0088',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily : "Inter-Variable"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
   searchBarCont : {
     flexDirection : 'row',
     height : "36@vs",

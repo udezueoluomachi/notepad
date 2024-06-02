@@ -1,26 +1,32 @@
-import { View, Text, TouchableOpacity } from "react-native"
+import { useState } from "react";
+import { View, Text, TouchableOpacity,} from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
 import Colors from "../../color.config";
 import { useNavigation } from "@react-navigation/native";
+import { getItem, setItem } from "../functions/encrypted-storage";
 
-const DisplayCard = ({title, note, time, index}) => {
+const DisplayCard = ({title, note, time, index, onLongPress}) => {
     const navigation = useNavigation();
+
     return (
-        <TouchableOpacity 
-            style={styles.card}
-            activeOpacity={0.7}
-            onPress={() => navigation.navigate("EditView", {noteIndex : index})}
-        >
-        <Text style={styles.title}>
-            {title}
-        </Text>
-        <Text style={styles.content}>
-            {note}
-        </Text>
-        <Text style={styles.time}>
-            {time}
-        </Text>
-        </TouchableOpacity>
+        <>
+            <TouchableOpacity 
+                style={styles.card}
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate("EditView", {noteIndex : index})}
+                onLongPress={onLongPress}
+            >
+            <Text style={styles.title}>
+                {title}
+            </Text>
+            <Text style={styles.content}>
+                {note}
+            </Text>
+            <Text style={styles.time}>
+                {time}
+            </Text>
+            </TouchableOpacity>
+        </>
     )
 }
 
