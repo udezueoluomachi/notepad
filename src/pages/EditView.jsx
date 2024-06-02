@@ -19,13 +19,35 @@ function EditView({route}) {
   const [title, setTitle] = useState("")
   const [note, setNote] = useState("")
   const [time, setTime] = useState(new Date().toString())
-  const [newNoteIndex, setNewNoteIndex] = useState(0)
+  const [noteDeleted, setNoteDeleted] = useState(false)
 
   const {noteIndex} = route.params;
 
   const saveNote = async () => {
     const notes = JSON.parse(await getItem("notes")).reverse();
-    console.log(notes)
+    if(title.trim() != "" && note.trim() != "") {
+      //save
+      if(noteIndex != "new") {
+        notes[noteIndex] = {
+          date : time,
+          title : title,
+          note : note
+        }
+        await setItem("notes", JSON.stringify(notes.reverse()))
+      }
+      else {
+        notes.reverse();
+        notes[notes.length - 1] = {
+          date : time,
+          title : title,
+          note : note
+        }
+        await setItem("notes", JSON.stringify(notes))
+      }
+    }
+    else {
+      //delete note
+    }
   }
 
   useEffect(() => {
@@ -67,12 +89,14 @@ function EditView({route}) {
         value={title} onChangeText={text => {
           setTitle(text)
           setTime(new Date().toString())
-        }} onBlur={() => saveNote()} />
+          saveNote()
+        }} />
       <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} multiline
         value={note} onChangeText={text => {
           setNote(text)
           setTime(new Date().toString())
-          }} onBlur={() => saveNote()}  />
+          saveNote()
+          }} />
     </View>
   );
 }

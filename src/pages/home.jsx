@@ -41,13 +41,15 @@ Feel free to tell us your comments or suggestions.`
       }
       listOfNotes.push(...JSON.parse(await getItem("notes")).reverse())
       setNotesToDisplay(listOfNotes.map(content => {
-        return (
-          <DisplayCard key={listOfNotes.indexOf(content)} index={listOfNotes.indexOf(content)}
-            title={content.title.slice(0, 40).trim() ?? content.note.slice(0, 40).trim()}
-            note={!content.title ? "" : content.note.slice(0, 40).trim()}
-            time={moment(new Date(content.date)).calendar()}
-          />
-        )
+        if(content.title.trim() != "" && content.trim() != "") {
+          return (
+            <DisplayCard key={listOfNotes.indexOf(content)} index={listOfNotes.indexOf(content)}
+              title={content.title.slice(0, 40).trim() ?? content.note.slice(0, 40).trim()}
+              note={!content.title ? "" : content.note.slice(0, 40).trim()}
+              time={moment(new Date(content.date)).calendar()}
+            />
+          )
+        }
       }))
     })();
   },[])
