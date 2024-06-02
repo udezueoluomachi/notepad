@@ -1,4 +1,4 @@
-import {useRef, useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {
   Text,
   TextInput,
@@ -22,7 +22,6 @@ function EditView({route}) {
   const [newNoteIndex, setNewNoteIndex] = useState(0)
 
   const {noteIndex} = route.params;
-  let index = noteIndex
 
   const saveNote = async () => {
     const notes = JSON.parse(await getItem("notes")).reverse();
@@ -32,8 +31,8 @@ function EditView({route}) {
   useEffect(() => {
     (async () => {
       const notes = JSON.parse(await getItem("notes")).reverse();
-      if(index != "new") {
-        const content = notes[index]
+      if(noteIndex != "new") {
+        const content = notes[noteIndex]
         setTime(content.date)
         setTitle(content.title)
         setNote(content.note)
@@ -67,15 +66,13 @@ function EditView({route}) {
       <TextInput placeholder='Title' style={{...styles.title, ...styles.input}}
         value={title} onChangeText={text => {
           setTitle(text)
-          saveNote()
           setTime(new Date().toString())
-        }} />
+        }} onBlur={() => saveNote()} />
       <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} multiline
         value={note} onChangeText={text => {
           setNote(text)
-          saveNote()
           setTime(new Date().toString())
-          }} />
+          }} onBlur={() => saveNote()}  />
     </View>
   );
 }
