@@ -19,7 +19,6 @@ function EditView({route}) {
   const [title, setTitle] = useState("")
   const [note, setNote] = useState("")
   const [time, setTime] = useState(new Date().toString())
-  const [noteDeleted, setNoteDeleted] = useState(false)
 
   const {noteIndex} = route.params;
 

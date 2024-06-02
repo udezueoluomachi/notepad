@@ -15,7 +15,7 @@ import { Iconify } from 'react-native-iconify';
 import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
 import moment from 'moment';
 
-function Home() {
+function Home({route}) {
   const listOfNotes = []
   const [notesToDisplay, setNotesToDisplay] = useState(<Text style={{
     textAlign : "center",
@@ -41,7 +41,7 @@ Feel free to tell us your comments or suggestions.`
       }
       listOfNotes.push(...JSON.parse(await getItem("notes")).reverse())
       setNotesToDisplay(listOfNotes.map(content => {
-        if(content.title.trim() != "" && content.trim() != "") {
+        if(content.title.trim() != "" && content.note.trim() != "") {
           return (
             <DisplayCard key={listOfNotes.indexOf(content)} index={listOfNotes.indexOf(content)}
               title={content.title.slice(0, 40).trim() ?? content.note.slice(0, 40).trim()}
@@ -52,7 +52,7 @@ Feel free to tell us your comments or suggestions.`
         }
       }))
     })();
-  },[])
+  },[ [route.params?.note]])
 
   return (
     <SafeAreaView>
