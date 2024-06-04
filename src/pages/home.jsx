@@ -15,6 +15,11 @@ import DisplayCard from '../components/DisplayCard';
 import { Iconify } from 'react-native-iconify';
 import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
 import moment from 'moment';
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import {
+  GDrive,
+  MimeTypes
+} from "@robinbobin/react-native-google-drive-api-wrapper";
 
 function Home({route}) {
   const listOfNotes = []
@@ -31,6 +36,14 @@ function Home({route}) {
     const newNotes = notes.filter((note, i) => i !== index )
     await setItem("notes", JSON.stringify(newNotes.reverse()))
   }
+
+  useEffect(async() => {
+    (async () => {
+      GoogleSignin.configure();
+      console.log(await GoogleSignin.hasPlayServices())
+      const userInfo = await GoogleSignin.signIn();
+    })()
+  })
 
   const navigation = useNavigation()
   useEffect( () => {
@@ -103,12 +116,18 @@ Longpress a note to delete it.`
         style={{backgroundColor : Colors['white-1'], height : "100%", paddingTop : 22}}
         >
           <View style={{paddingHorizontal : 13}}>
-            <Text style={{
-              color : Colors['black-1'],
-              fontSize : 40,
-              fontFamily : "Inter-Variable",
-              fontWeight : "650"
-            }}>Notes</Text>
+            <View style={styles.header}>
+              <Text style={{
+                color : Colors['black-1'],
+                fontSize : 40,
+                fontFamily : "Inter-Variable",
+                fontWeight : "650"
+              }}>Notes</Text>
+              <TouchableOpacity
+                activeOpacity={0.6}>
+                <Iconify icon="fluent:cloud-sync-32-regular" size={30} color={Colors.ash} />
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity 
             style={styles.searchBarCont}
             activeOpacity={0.6}
@@ -212,7 +231,12 @@ const styles = ScaledSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  }
+  },
+  header : {
+    flexDirection : "row",
+    justifyContent : "space-between",
+    alignItems : "center"
+  },
 })
 
 export default Home;
