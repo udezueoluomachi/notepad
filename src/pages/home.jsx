@@ -20,6 +20,7 @@ import {
   GDrive,
   MimeTypes
 } from "@robinbobin/react-native-google-drive-api-wrapper";
+import { createNoteFile } from '../functions/gDrive';
 
 function Home({route}) {
   const listOfNotes = []
@@ -37,13 +38,16 @@ function Home({route}) {
     await setItem("notes", JSON.stringify(newNotes.reverse()))
   }
 
-  useEffect(async() => {
+  if(!GoogleSignin.hasPreviousSignIn()) {
+    GoogleSignin.configure();
+    GoogleSignin.signIn().then()
+  }
+
+  useEffect(() => {
     (async () => {
-      GoogleSignin.configure();
-      console.log(await GoogleSignin.hasPlayServices())
-      const userInfo = await GoogleSignin.signIn();
-    })()
-  })
+      await createNoteFile()
+    })();
+  }, [])
 
   const navigation = useNavigation()
   useEffect( () => {
@@ -123,10 +127,6 @@ Longpress a note to delete it.`
                 fontFamily : "Inter-Variable",
                 fontWeight : "650"
               }}>Notes</Text>
-              <TouchableOpacity
-                activeOpacity={0.6}>
-                <Iconify icon="fluent:cloud-sync-32-regular" size={30} color={Colors.ash} />
-              </TouchableOpacity>
             </View>
             <TouchableOpacity 
             style={styles.searchBarCont}
