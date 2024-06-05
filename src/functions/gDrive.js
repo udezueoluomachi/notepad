@@ -10,7 +10,6 @@ export async function createNoteFile() {
     try {
         const gdrive = new GDrive();
         gdrive.accessToken = (await GoogleSignin.getTokens()).accessToken;
-        gdrive.permissions.create()
         const note = await gdrive.files.createIfNotExists({
             q: new ListQueryBuilder()
               .e("name", "notepadAppBy@udezueoluomachi")

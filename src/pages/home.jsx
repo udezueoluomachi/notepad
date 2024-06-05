@@ -39,8 +39,17 @@ function Home({route}) {
   }
 
   if(!GoogleSignin.hasPreviousSignIn()) {
-    GoogleSignin.configure();
-    GoogleSignin.signIn().then()
+    (async () => {
+      try {
+        GoogleSignin.configure({
+          scopes : ['https://www.googleapis.com/auth/drive'],
+        });
+        await GoogleSignin.signIn()
+      }
+      catch(error) {
+        console.log(error)
+      }
+    })()
   }
 
   useEffect(() => {
