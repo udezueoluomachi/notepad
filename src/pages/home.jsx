@@ -38,25 +38,24 @@ function Home({route}) {
     await setItem("notes", JSON.stringify(newNotes.reverse()))
   }
 
-  if(!GoogleSignin.hasPreviousSignIn()) {
-    (async () => {
-      try {
+  async function handleSignin () {
+    try {
+      //if(!GoogleSignin.hasPreviousSignIn()) {
         GoogleSignin.configure({
+          webClientId : "866050087893-s6nj37vqavnq2k07om8mklq7pg08fbjc.apps.googleusercontent.com",
           scopes : ['https://www.googleapis.com/auth/drive'],
         });
-        await GoogleSignin.signIn()
-      }
-      catch(error) {
-        console.log(error)
-      }
-    })()
+        const userInfo = await GoogleSignin.signIn()
+        console.log(userInfo)
+      /*}
+      else {
+        console.log(4)
+      }*/
+    }
+    catch(error) {
+      //console.log(error)
+    }
   }
-
-  useEffect(() => {
-    (async () => {
-      await createNoteFile()
-    })();
-  }, [])
 
   const navigation = useNavigation()
   useEffect( () => {
@@ -136,6 +135,12 @@ Longpress a note to delete it.`
                 fontFamily : "Inter-Variable",
                 fontWeight : "650"
               }}>Notes</Text>
+              <TouchableOpacity
+              style={styles.connectAccount}
+              onPress={() => handleSignin()}
+               activeOpacity={0.6}>
+                <Iconify icon='fa-regular:user' size={25} color={Colors['white-3']} />
+              </TouchableOpacity>
             </View>
             <TouchableOpacity 
             style={styles.searchBarCont}
@@ -246,6 +251,16 @@ const styles = ScaledSheet.create({
     justifyContent : "space-between",
     alignItems : "center"
   },
+  connectAccount : {
+    borderRadius : 100,
+    borderColor : Colors['white-3'],
+    borderStyle : "solid",
+    borderWidth : 2,
+    width : 40,
+    height : 40,
+    justifyContent : "center",
+    alignItems : "center"
+  }
 })
 
 export default Home;
