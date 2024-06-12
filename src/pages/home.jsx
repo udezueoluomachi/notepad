@@ -40,20 +40,15 @@ function Home({route}) {
 
   async function handleSignin () {
     try {
-      //if(!GoogleSignin.hasPreviousSignIn()) {
-        GoogleSignin.configure({
-          webClientId : "866050087893-s6nj37vqavnq2k07om8mklq7pg08fbjc.apps.googleusercontent.com",
-          scopes : ['https://www.googleapis.com/auth/drive'],
-        });
-        const userInfo = await GoogleSignin.signIn()
-        console.log(userInfo)
-      /*}
-      else {
-        console.log(4)
-      }*/
+      GoogleSignin.configure({
+        webClientId : "866050087893-s6nj37vqavnq2k07om8mklq7pg08fbjc.apps.googleusercontent.com",
+        scopes : ['https://www.googleapis.com/auth/drive'],
+      });
+      const userInfo = await GoogleSignin.signIn()
+      console.log(userInfo, 2)
     }
     catch(error) {
-      //console.log(error)
+      console.log(error)
     }
   }
 
@@ -92,6 +87,14 @@ Longpress a note to delete it.`
       }))
     })();
   },[ [route.params?.note]])
+
+  
+
+  useEffect(() => {
+    (async() => {
+      //createNoteFile()
+    })()
+  }, [])
 
   return (
     <SafeAreaView>

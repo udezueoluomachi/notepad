@@ -15,7 +15,7 @@ export async function createNoteFile() {
               .e("name", "notepadAppBy@udezueoluomachi")
               .and()
               .in("root", "parents")
-        }, Uploader.execre)
+        }, Uploader.execute())
         console.log(note)
     }
     catch (error) {
