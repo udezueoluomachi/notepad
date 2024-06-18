@@ -13,14 +13,9 @@ import { ScaledSheet } from 'react-native-size-matters'
 import {Btn} from "../components/Buttons"
 import DisplayCard from '../components/DisplayCard';
 import { Iconify } from 'react-native-iconify';
-import {setItem, getItem, removeItem} from "../functions/encrypted-storage"
+import {setItem, getItem} from "../functions/encrypted-storage"
 import moment from 'moment';
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import {
-  GDrive,
-  MimeTypes
-} from "@robinbobin/react-native-google-drive-api-wrapper";
-import { createNoteFile } from '../functions/gDrive';
 
 function Home({route}) {
   const listOfNotes = []
@@ -40,10 +35,7 @@ function Home({route}) {
 
   async function handleSignin () {
     try {
-      GoogleSignin.configure({
-        webClientId : "866050087893-s6nj37vqavnq2k07om8mklq7pg08fbjc.apps.googleusercontent.com",
-        scopes : ['https://www.googleapis.com/auth/drive'],
-      });
+      GoogleSignin.configure();
       const userInfo = await GoogleSignin.signIn()
       console.log(userInfo, 2)
     }
@@ -87,14 +79,6 @@ Longpress a note to delete it.`
       }))
     })();
   },[ [route.params?.note]])
-
-  
-
-  useEffect(() => {
-    (async() => {
-      //createNoteFile()
-    })()
-  }, [])
 
   return (
     <SafeAreaView>
