@@ -1,12 +1,58 @@
 import { View, ScrollView, TextInput, TouchableOpacity, Text } from "react-native";
+import { useState, useEffect } from "react";
 import { ScaledSheet } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 import Colors from "../../color.config";
 import { Iconify } from "react-native-iconify";
 import DisplayCard from "../components/DisplayCard";
+import search from "../functions/search";
+import { getItem } from "../functions/encrypted-storage";
+import moment from "moment";
 
 const Search = () => {
     const navigation = useNavigation();
+    const [mysearch, setSearch] = useState("");
+    const [searchResults, setSearchResults] = useState(<Text style={{textAlign : "center", color : Colors.ash}}>
+        Your search results would appear here.
+    </Text>)
+
+    useEffect( () => {
+        (async () => {
+          const notes = await getItem("notes")
+          if(!notes) return navigation.goBack();
+
+          const data = JSON.parse(notes)
+
+          if(mysearch && mysearch.toLowerCase != "") {
+            const results = search(data, mysearch)
+            if(results.length > 0) {
+                setSearchResults(
+                    results.map(content => {
+                        if(content.title || content.note) {
+                          return (
+                            <DisplayCard key={data.reverse().indexOf(content)} index={data.reverse().indexOf(content)}
+                              title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}
+                              note={!content.title ? "" : content.note.slice(0, 40).trim()}
+                              time={moment(new Date(content.date)).calendar()}
+                            />
+                          )
+                        }
+                      })
+                )
+            }
+            else {
+                setSearchResults(<Text style={{textAlign : "center", color : Colors.ash}}>
+                    Your search results would appear here.
+                </Text>)
+            }
+          }
+          else {
+              setSearchResults(<Text style={{textAlign : "center", color : Colors.ash}}>
+                  Your search results would appear here.
+              </Text>)
+          }
+        })();
+      },[mysearch])
 
     return (
         <View style={styles.screen}>
@@ -16,16 +62,14 @@ const Search = () => {
                 </TouchableOpacity>
                 <View style={styles.searchBarCont} >
                     <Iconify icon="iconamoon:search-thin" size={24} color={Colors['black-1']} style={{opacity : 0.7}} />
-                    <TextInput style={styles.searchBarText} placeholder="Search notes" autoFocus={true} />
+                    <TextInput style={styles.searchBarText} placeholder="Search notes" autoFocus={true} onChangeText={(text) => setSearch(text)} />
                 </View>
             </View>
             <ScrollView
             showsVerticalScrollIndicator={false}
             style={{marginTop : 22, paddingHorizontal : 13, height : "100%"}}
             contentInsetAdjustmentBehavior="automatic">
-                <Text style={{textAlign : "center", color : Colors.ash}}>
-                    Your search results would appear here.
-                </Text>
+                {searchResults}
             </ScrollView>
         </View>
     )

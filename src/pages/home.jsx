@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Modal
+  Modal,
+  Alert
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
@@ -15,7 +16,6 @@ import DisplayCard from '../components/DisplayCard';
 import { Iconify } from 'react-native-iconify';
 import {setItem, getItem} from "../functions/encrypted-storage"
 import moment from 'moment';
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 function Home({route}) {
   const listOfNotes = []
@@ -35,12 +35,10 @@ function Home({route}) {
 
   async function handleSignin () {
     try {
-      GoogleSignin.configure();
-      const userInfo = await GoogleSignin.signIn()
-      console.log(userInfo, 2)
+      console.log("signin")
     }
     catch(error) {
-      console.log(error)
+      Alert.alert("Error signing.", error)
     }
   }
 
