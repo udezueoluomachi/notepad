@@ -11,6 +11,7 @@ import Colors from "../../color.config";
 import { Iconify } from "react-native-iconify";
 import moment from 'moment';
 import {setItem, getItem, } from "../functions/encrypted-storage";
+import random from 'random-string-generator';
 
 
 function EditView({route}) {
@@ -27,20 +28,16 @@ function EditView({route}) {
     if(/*title.trim() != "" && note.trim() != ""*/ true) {
       //save
       if(noteIndex != "new") {
-        notes[noteIndex] = {
-          date : time,
-          title : title,
-          note : note
-        }
+        notes[noteIndex]. date = time
+        notes[noteIndex].title = title
+        notes[noteIndex].note = note
         await setItem("notes", JSON.stringify(notes.reverse()))
       }
       else {
         notes.reverse();
-        notes[notes.length - 1] = {
-          date : time,
-          title : title,
-          note : note
-        }
+        notes[notes.length - 1].date = time,
+        notes[notes.length - 1].title = title
+        notes[notes.length - 1].note = note
         await setItem("notes", JSON.stringify(notes))
       }
     }
@@ -61,6 +58,7 @@ function EditView({route}) {
       else {
         notes.reverse();
         notes.push({
+          id : random(),
           date : time,
           title : title,
           note : note

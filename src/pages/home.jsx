@@ -48,6 +48,7 @@ function Home({route}) {
       const notes = await getItem("notes")
       if(!notes) {
         await setItem("notes", JSON.stringify([{
+          id : "hfyfefygfiijdj",
           date : new Date().toString(),
           title : "Welcome to Notes",
           note : `Welcome! Capture anything with Notes on.

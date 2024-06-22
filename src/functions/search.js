@@ -11,6 +11,6 @@ export default function search(array, text) {
         }
         return include
     })
-    result.sort((a,b) => new Date(a.time) - new Date(b.time))
+    result.sort((a,b) => new Date(b.time) - new Date(a.time))
     return result
 }
