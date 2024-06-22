@@ -20,18 +20,22 @@ import { Wave } from 'react-native-animated-spinkit';
 export default function CreateAccount() {
   const [seedPhrase, setSeedPhrase] = useState(<Wave size={ms(40)} style={{alignSelf : 'center', marginTOp : 8}} color={Colors.cream} />)
   const [value, setValue] = useState("")
+  const [loading, setLoading] = useState(null)
   
   const navigation = useNavigation()
   useEffect(() => {
     (async() => {
       const user = await getItem("user")
-      if(user) navigation.replace("Home")
+      if(user) {
+        navigation.replace("Home")
+      }
     })()
   }, [])
 
   const createAccount = async () =>{
     try {
       if(value) {
+        setLoading(<Wave size={ms(14)} style={{alignSelf : 'center',}} color={Colors['white-1']} />)
         let response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/create-account", {seedPhrase : value.trim().split(" ")})
         if(!response)
             return Toast.show({
@@ -39,8 +43,12 @@ export default function CreateAccount() {
               text1: 'No internet connection',
               text2: 'Please connect to internet and reopen the app.'
           })
-        console.log(response.data.message.accessToken)
         await setItem("user", response.data.message.accessToken)
+        const notes = await axios.get("https://q20j8xdt-2000.uks1.devtunnels.ms/user/notes", {headers : {
+          Authorization : `Bearer ${response.data.message.accessToken}`
+        }})
+        await setItem("notes", notes.data.message.notes)
+        setLoading(null)
       }
     }
     catch(error) {
@@ -112,8 +120,10 @@ export default function CreateAccount() {
             </Text>
           {seedPhrase}
           <View style={styles.nav}>
-            <TouchableOpacity onPress={() => createAccount()} style={{width : "100%", height : ms(40), backgroundColor : Colors.cream, justifyContent : "center", borderRadius : 20}}>
-              <Text style={{textAlign : "center", color : Colors['white-1']}}>Create account</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              createAccount()
+              }} style={{width : "100%", height : ms(40), backgroundColor : Colors.cream, justifyContent : "center", borderRadius : 20}}>
+              <Text style={{textAlign : "center", color : Colors['white-1']}}>Create account {loading}</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Login")} style={{width : "100%", height : ms(40), justifyContent : "center"}}>
               <Text style={{textAlign : "center"}}>Login instead</Text></TouchableOpacity>
           </View>
