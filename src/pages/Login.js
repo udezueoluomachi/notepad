@@ -5,7 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Clipboard
+  TextInput
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
@@ -15,22 +15,13 @@ import Toast from 'react-native-toast-message';
 import axios from 'axios';
 import { Wave } from 'react-native-animated-spinkit';
 
-export default function CreateAccount() {
-  const [seedPhrase, setSeedPhrase] = useState(<Wave size={ms(40)} style={{alignSelf : 'center', marginTOp : 8}} color={Colors.cream} />)
+export default function Login() {
   const [value, setValue] = useState("")
   const [loading, setLoading] = useState(null)
   
   const navigation = useNavigation()
-  useEffect(() => {
-    (async() => {
-      const user = await getItem("user")
-      if(user) {
-        navigation.replace("Home")
-      }
-    })()
-  }, [])
 
-  const createAccount = async () =>{
+  const login = async () =>{
     try {
       if(value) {
         setLoading(<Wave size={ms(14)} style={{alignSelf : 'center',}} color={Colors['white-1']} />)
@@ -47,63 +38,19 @@ export default function CreateAccount() {
         }})
         await setItem("notes", notes.data.message.notes)
         setLoading(null)
+        navigation.replace("Home")
       }
     }
     catch(error) {
-      setLoading(null)
+        setLoading(null)
       console.log(error)
       Toast.show({
         type: 'error',
         text1: 'Opps',
-        text2: 'Something went wrong while creating account. Contact developer'
+        text2: 'Something went wrong with login. Contact developer'
       })
     }
   }
-
-  useEffect(() => {
-    (async () => {
-      try {
-        let response = await axios.get("https://q20j8xdt-2000.uks1.devtunnels.ms/user/new-seedphrase")
-        if(!response)
-            return Toast.show({
-              type: 'error',
-              text1: 'No internet connection',
-              text2: 'Please connect to internet and reopen the app.'
-          })
-        setValue(response.data.seedPhrase)
-        setSeedPhrase(
-          <TouchableOpacity activeOpacity={0.6} onPress={() => {
-            Clipboard.setString(response.data.seedPhrase)
-            Toast.show({
-              type : "info",
-              text1 : "Seed phrase copied!",
-              text2 : "🙌"
-            })
-            }}>
-            <Text style={{
-              color : Colors['black-1'],
-              fontFamily : "Inter-Variable",
-              marginTop : ms(10),
-              fontSize : ms(16),
-              fontWeight : "300",
-              backgroundColor : Colors['white-3'],
-              padding : 5,
-              borderRadius : 3
-            }}>
-              {response.data.seedPhrase}
-            </Text>
-          </TouchableOpacity>)
-      }
-      catch(error) {
-        console.log(error)
-        Toast.show({
-          type: 'error',
-          text1: 'Opps',
-          text2: 'Something went wrong. Contact developer'
-      })
-      }
-    })()
-  }, [])
 
   return (
     <SafeAreaView>
@@ -115,16 +62,18 @@ export default function CreateAccount() {
               fontSize : ms(40),
               fontWeight : "bold"
             }}>
-              Store your seed phrase in a secure location
+              Login to your account
             </Text>
-          {seedPhrase}
           <View style={styles.nav}>
+            <TextInput  
+            style={{width : "100%", height : ms(50),
+            borderColor : Colors.cream, borderWidth : 2, borderStyle : "solid",
+            justifyContent : "center", borderRadius : 3, marginBottom : ms(40), paddingHorizontal : 5}}
+            placeholder='Seed phrase' onChangeText={text => setValue(text)} />
             <TouchableOpacity onPress={() => {
-              createAccount()
+              login()
               }} style={{width : "100%", height : ms(40), backgroundColor : Colors.cream, justifyContent : "center", borderRadius : 20}}>
-              <Text style={{textAlign : "center", color : Colors['white-1']}}>Create account {loading}</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")} style={{width : "100%", height : ms(40), justifyContent : "center"}}>
-              <Text style={{textAlign : "center"}}>Login instead</Text></TouchableOpacity>
+              <Text style={{textAlign : "center", color : Colors['white-1']}}>Login {loading}</Text></TouchableOpacity>
           </View>
         </View>
 

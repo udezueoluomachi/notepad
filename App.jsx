@@ -6,6 +6,7 @@ import Home from './src/pages/home';
 import EditView from './src/pages/EditView';
 import Search from './src/pages/Search';
 import CreateAccount from './src/pages/createAccount';
+import Login from './src/pages/Login';
 import Colors from './color.config';
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ function App() {
           <Stack.Screen name='EditView' component={EditView} />
           <Stack.Screen name='Search' component={Search} />
           <Stack.Screen name='CreateAccount' component={CreateAccount} />
+          <Stack.Screen name='Login' component={Login} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast position='bottom' />
