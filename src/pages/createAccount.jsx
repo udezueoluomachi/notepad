@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  ScrollView,
   SafeAreaView,
   Text,
   View,
@@ -18,6 +19,7 @@ import { Wave } from 'react-native-animated-spinkit';
 
 export default function CreateAccount() {
   const [seedPhrase, setSeedPhrase] = useState(<Wave size={ms(40)} style={{alignSelf : 'center', marginTOp : 8}} color={Colors.cream} />)
+  const [value, setValue] = useState("")
   
   const navigation = useNavigation()
   useEffect(() => {
@@ -27,6 +29,29 @@ export default function CreateAccount() {
     })()
   }, [])
 
+  const createAccount = async () =>{
+    try {
+      if(value) {
+        let response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/create-account", {seedPhrase : value.trim().split(" ")})
+        if(!response)
+            return Toast.show({
+              type: 'error',
+              text1: 'No internet connection',
+              text2: 'Please connect to internet and reopen the app.'
+          })
+        console.log(response.data.message.accessToken)
+        await setItem("user", response.data.message.accessToken)
+      }
+    }
+    catch(error) {
+      console.log(error)
+      Toast.show({
+        type: 'error',
+        text1: 'Opps',
+        text2: 'Something went wrong while creating account. Contact developer'
+      })
+    }
+  }
 
   useEffect(() => {
     (async () => {
@@ -38,6 +63,7 @@ export default function CreateAccount() {
               text1: 'No internet connection',
               text2: 'Please connect to internet and reopen the app.'
           })
+        setValue(response.data.seedPhrase)
         setSeedPhrase(
           <TouchableOpacity activeOpacity={0.6} onPress={() => {
             Clipboard.setString(response.data.seedPhrase)
@@ -74,7 +100,7 @@ export default function CreateAccount() {
 
   return (
     <SafeAreaView>
-      <View style={styles.view}>
+      <ScrollView style={styles.view}>
         <View style={styles.seedPhrase}>
             <Text style={{
               color : Colors['black-1'],
@@ -86,14 +112,14 @@ export default function CreateAccount() {
             </Text>
           {seedPhrase}
           <View style={styles.nav}>
-            <TouchableOpacity style={{width : "100%", height : ms(40), backgroundColor : Colors.cream, justifyContent : "center", borderRadius : 20}}>
+            <TouchableOpacity onPress={() => createAccount()} style={{width : "100%", height : ms(40), backgroundColor : Colors.cream, justifyContent : "center", borderRadius : 20}}>
               <Text style={{textAlign : "center", color : Colors['white-1']}}>Create account</Text></TouchableOpacity>
-            <TouchableOpacity style={{width : "100%", height : ms(40), justifyContent : "center"}}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")} style={{width : "100%", height : ms(40), justifyContent : "center"}}>
               <Text style={{textAlign : "center"}}>Login instead</Text></TouchableOpacity>
           </View>
         </View>
 
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

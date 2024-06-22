@@ -16,6 +16,7 @@ import DisplayCard from '../components/DisplayCard';
 import { Iconify } from 'react-native-iconify';
 import {setItem, getItem} from "../functions/encrypted-storage"
 import moment from 'moment';
+import CreateAccount from './createAccount';
 
 function Home({route}) {
   const listOfNotes = []
@@ -35,7 +36,7 @@ function Home({route}) {
 
   async function handleSignin () {
     try {
-      console.log("signin")
+      navigation.navigate("Login")
     }
     catch(error) {
       Alert.alert("Error signing.", error)
