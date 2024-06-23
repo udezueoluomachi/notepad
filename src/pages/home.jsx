@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Modal,
-  Alert
+  Alert,
+  RefreshControl
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
@@ -16,11 +17,12 @@ import DisplayCard from '../components/DisplayCard';
 import { Iconify } from 'react-native-iconify';
 import {setItem, getItem} from "../functions/encrypted-storage"
 import moment from 'moment';
-import CreateAccount from './createAccount';
+import axios from 'axios';
 
 function Home({route}) {
   const listOfNotes = []
   const [modalVisible, setModalVisibility] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const [notesToDisplay, setNotesToDisplay] = useState(<Text style={{
     textAlign : "center",
     color : Colors['black-1'],
@@ -41,6 +43,14 @@ function Home({route}) {
     catch(error) {
       Alert.alert("Error signing.", error)
     }
+  }
+
+  async function reflectUserData() {
+    const user = await getItem("user")
+    const response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/syncnotes",  {headers : {
+      Authorization : `Bearer ${user}`
+    }})
+    await setItem("notes", response.data.message.syncedNotes)
   }
 
   const navigation = useNavigation()
@@ -141,7 +151,17 @@ Longpress a note to delete it.`
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{marginTop : 22, paddingHorizontal : 13}}
-            contentInsetAdjustmentBehavior="automatic"
+            contentInsetAdjustmentBehavior="automatic"  refreshControl={
+              <RefreshControl refreshing={refreshing}
+              colors={["#000000"]}
+              progressBackgroundColor="#ffffff" onRefresh={() => {
+                  setRefreshing(true)
+                  reflectUserData()
+                  .then(() => {
+                      setRefreshing(false)
+                  })
+              }} />
+              }
             >
               {notesToDisplay}
           </ScrollView>
