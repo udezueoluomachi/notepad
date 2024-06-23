@@ -82,13 +82,13 @@ function EditView({route}) {
       style={{marginTop : 22, paddingHorizontal : 13}}>
           <Text style={styles.lastUpdated}>{moment(new Date(time)).calendar()}</Text>
       </View>
-      <TextInput placeholder='Title' style={{...styles.title, ...styles.input}}
+      <TextInput placeholderTextColor={Colors['ash']} placeholder='Title' style={{...styles.title, ...styles.input}}
         value={title} onChangeText={text => {
           setTitle(text)
           setTime(new Date().toString())
           saveNote()
         }} />
-      <TextInput placeholder='Note something down.' style={{...styles.note, ...styles.input}} multiline
+      <TextInput placeholderTextColor={Colors['ash']} placeholder='Note something down.' style={{...styles.note, ...styles.input}} multiline
         value={note} onChangeText={text => {
           setNote(text)
           setTime(new Date().toString())

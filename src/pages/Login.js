@@ -36,7 +36,7 @@ export default function Login() {
         const notes = await axios.get("https://cloud-notepad-server.onrender.com/user/notes", {headers : {
           Authorization : `Bearer ${response.data.message.accessToken}`
         }})
-        await setItem("notes", JSON.stringify(notes.data.message.notes))
+        await setItem("notes", JSON.stringify(notes.data.message.notes.reverse()))
         setLoading(null)
         navigation.replace("Home")
       }
@@ -68,8 +68,8 @@ export default function Login() {
             <TextInput  
             style={{width : "100%", height : ms(50),
             borderColor : Colors.cream, borderWidth : 2, borderStyle : "solid",
-            justifyContent : "center", borderRadius : 3, marginBottom : ms(40), paddingHorizontal : 5}}
-            placeholder='Seed phrase' onChangeText={text => setValue(text)} />
+            justifyContent : "center", borderRadius : 3, marginBottom : ms(40), paddingHorizontal : 5, color : Colors['black-1']}}
+            placeholder='Seed phrase' onChangeText={text => setValue(text)} placeholderTextColor={Colors['ash']} />
             <TouchableOpacity onPress={() => {
               login()
               }} style={{width : "100%", height : ms(40), backgroundColor : Colors.cream, justifyContent : "center", borderRadius : 20}}>
