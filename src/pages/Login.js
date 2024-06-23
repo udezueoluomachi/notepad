@@ -36,7 +36,7 @@ export default function Login() {
         const notes = await axios.get("https://cloud-notepad-server.onrender.com/user/notes", {headers : {
           Authorization : `Bearer ${response.data.message.accessToken}`
         }})
-        await setItem("notes", notes.data.message.notes)
+        await setItem("notes", JSON.stringify(notes.data.message.notes))
         setLoading(null)
         navigation.replace("Home")
       }
