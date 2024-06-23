@@ -50,7 +50,7 @@ function Home({route}) {
     try {
       const user = await getItem("user")
       const notes = await getItem("notes")
-      const response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/syncnotes", {
+      const response = await axios.post("https://cloud-notepad-server.onrender.com/user/syncnotes", {
         notes : JSON.parse(notes)
       }, {headers : {
         Authorization : `Bearer ${user}`

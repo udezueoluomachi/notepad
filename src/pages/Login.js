@@ -25,7 +25,7 @@ export default function Login() {
     try {
       if(value) {
         setLoading(<Wave size={ms(14)} style={{alignSelf : 'center',}} color={Colors['white-1']} />)
-        let response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/login", {seedPhrase : value.trim().split(" ")})
+        let response = await axios.post("https://cloud-notepad-server.onrender.com/user/login", {seedPhrase : value.trim().split(" ")})
         if(!response)
             return Toast.show({
               type: 'error',
@@ -33,7 +33,7 @@ export default function Login() {
               text2: 'Please connect to internet and reopen the app.'
           })
         await setItem("user", response.data.message.accessToken)
-        const notes = await axios.get("https://q20j8xdt-2000.uks1.devtunnels.ms/user/notes", {headers : {
+        const notes = await axios.get("https://cloud-notepad-server.onrender.com/user/notes", {headers : {
           Authorization : `Bearer ${response.data.message.accessToken}`
         }})
         await setItem("notes", notes.data.message.notes)
