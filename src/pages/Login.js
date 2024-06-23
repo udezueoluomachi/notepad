@@ -25,7 +25,7 @@ export default function Login() {
     try {
       if(value) {
         setLoading(<Wave size={ms(14)} style={{alignSelf : 'center',}} color={Colors['white-1']} />)
-        let response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/create-account", {seedPhrase : value.trim().split(" ")})
+        let response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/login", {seedPhrase : value.trim().split(" ")})
         if(!response)
             return Toast.show({
               type: 'error',

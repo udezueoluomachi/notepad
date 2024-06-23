@@ -18,6 +18,7 @@ import { Iconify } from 'react-native-iconify';
 import {setItem, getItem} from "../functions/encrypted-storage"
 import moment from 'moment';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 function Home({route}) {
   const listOfNotes = []
@@ -46,11 +47,24 @@ function Home({route}) {
   }
 
   async function reflectUserData() {
-    const user = await getItem("user")
-    const response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/syncnotes",  {headers : {
-      Authorization : `Bearer ${user}`
-    }})
-    await setItem("notes", response.data.message.syncedNotes)
+    try {
+      const user = await getItem("user")
+      const notes = await getItem("notes")
+      const response = await axios.post("https://q20j8xdt-2000.uks1.devtunnels.ms/user/syncnotes", {
+        notes : JSON.parse(notes)
+      }, {headers : {
+        Authorization : `Bearer ${user}`
+      }})
+      await setItem("notes", JSON.stringify(response.data.message.reverse()))
+    }
+    catch(error) {
+      console.log(error)
+      Toast.show({
+        type: 'error',
+        text1: 'Opps',
+        text2: 'Something went wrong with login. Contact developer'
+      })
+    }
   }
 
   const navigation = useNavigation()
