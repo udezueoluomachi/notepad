@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { View, Text, TouchableOpacity,} from "react-native"
+import { Text, TouchableOpacity,} from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
 import Colors from "../../color.config";
 import { useNavigation } from "@react-navigation/native";
-import { getItem, setItem } from "../functions/encrypted-storage";
 
 const DisplayCard = ({title, note, time, index, onLongPress}) => {
     const navigation = useNavigation();
@@ -32,7 +30,8 @@ const DisplayCard = ({title, note, time, index, onLongPress}) => {
 
 const styles = ScaledSheet.create({
     card : {
-        height : "72@vs",
+        height : "auto",
+        minHeight : "72@vs",
         width : "100%",
         backgroundColor : Colors.cream,
         borderRadius : 5,
