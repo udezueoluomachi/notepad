@@ -7,6 +7,7 @@ import EditView from './src/pages/EditView';
 import Search from './src/pages/Search';
 import CreateAccount from './src/pages/createAccount';
 import Login from './src/pages/Login';
+import Splash from './src/pages/splash';
 import Colors from './color.config';
 
 const Stack = createNativeStackNavigator();
@@ -20,12 +21,13 @@ function App() {
         barStyle="dark-content"
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="CreateAccount" screenOptions={{ headerShown:false }}>
+        <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown:false }}>
           <Stack.Screen name='Home' component={Home} />
           <Stack.Screen name='EditView' component={EditView} />
           <Stack.Screen name='Search' component={Search} />
           <Stack.Screen name='CreateAccount' component={CreateAccount} />
           <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name='Splash' component={Splash} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast position='bottom' />
