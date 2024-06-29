@@ -33,8 +33,8 @@ function Home({route}) {
   const [itemIndex, setIndex] = useState(0);
   const deleteNote = async (index) => {
     const notes = JSON.parse(await getItem("notes")).reverse()
-    const newNotes = notes.filter((note, i) => i !== index )
-    await setItem("notes", JSON.stringify(newNotes.reverse()))
+    notes[index].deleted = true;
+    await setItem("notes", JSON.stringify(notes.reverse()))
   }
 
   async function handleSignin () {
@@ -87,7 +87,7 @@ Longpress a note to delete it.`
       }
       listOfNotes.push(...JSON.parse(await getItem("notes")).reverse())
       setNotesToDisplay(listOfNotes.map(content => {
-        if(content.title || content.note) {
+        if((content.title || content.note ) && content.deleted != true) {
           return (
             <DisplayCard key={listOfNotes.indexOf(content)} index={listOfNotes.indexOf(content)}
               title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}
@@ -202,7 +202,7 @@ const styles = ScaledSheet.create({
     borderRadius: 8,
     padding: 35,
     width : "300@ms",
-    height : "100@vs",
+    minHeight : "100@vs",
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {

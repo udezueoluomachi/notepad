@@ -28,7 +28,7 @@ const Search = () => {
             if(results.length > 0) {
                 setSearchResults(
                     results.map(content => {
-                        if(content.title || content.note) {
+                        if((content.title || content.note) && content.deleted != true) {
                           return (
                             <DisplayCard key={data.reverse().indexOf(content)} index={data.reverse().indexOf(content)}
                               title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}

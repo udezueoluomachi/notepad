@@ -31,13 +31,14 @@ const DisplayCard = ({title, note, time, index, onLongPress}) => {
 const styles = ScaledSheet.create({
     card : {
         height : "auto",
-        minHeight : "72@vs",
+        minHeight : "60@vs",
         width : "100%",
         backgroundColor : Colors.cream,
         borderRadius : 5,
         marginTop : 11,
         paddingVertical : 6,
-        paddingHorizontal : 14
+        paddingHorizontal : 14,
+        justifyContent : "space-between"
     },
     title : {
         fontFamily : "Inter-Variable",
@@ -59,7 +60,7 @@ const styles = ScaledSheet.create({
         fontWeight : "light",
         color : Colors["black-1"],
         opacity : 0.5,
-        marginTop : 6
+        marginTop : 6,
     }
 })
 
