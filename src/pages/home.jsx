@@ -62,7 +62,7 @@ function Home({route}) {
       Toast.show({
         type: 'error',
         text1: 'Opps',
-        text2: 'Something went wrong with login. Contact developer'
+        text2: 'Something went wrong'
       })
     }
   }
@@ -232,6 +232,7 @@ const styles = ScaledSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+    color : Colors['black-1']
   },
   searchBarCont : {
     flexDirection : 'row',
