@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
-import { ScaledSheet } from 'react-native-size-matters'
+import { ScaledSheet, vs } from 'react-native-size-matters'
 import {Btn} from "../components/Buttons"
 import DisplayCard from '../components/DisplayCard';
 import { Iconify } from 'react-native-iconify';
@@ -28,7 +28,8 @@ function Home({route}) {
     textAlign : "center",
     color : Colors['black-1'],
     fontFamily : "Inter-Variable",
-    fontSize : 14
+    fontSize : 14,
+    marginTop : vs(190)
   }}>Your notes would appear here. Click the "+" button to create a new note</Text>)
   const [itemIndex, setIndex] = useState(0);
   const deleteNote = async (index) => {
@@ -92,7 +93,7 @@ Longpress a note to delete it.`
             <DisplayCard key={listOfNotes.indexOf(content)} data={content} index={listOfNotes.indexOf(content)}
               title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}
               note={new String(!content.title ? "" : content.note.slice(0, 40).trim()).replace(/\n/, "_'")}
-              time={moment(new Date(content.date)).calendar()}
+              time={moment(new Date(content.date)).fromNow()}
               onLongPress={() => {
                 setIndex(listOfNotes.indexOf(content));
                 setModalVisibility(true)
@@ -150,7 +151,7 @@ Longpress a note to delete it.`
               style={styles.connectAccount}
               onPress={() => handleSignin()}
                activeOpacity={0.6}>
-                <Iconify icon='fa-regular:user' size={25} color={Colors['white-3']} />
+                <Iconify icon='fa-regular:user' size={20} color={Colors['black-1']} />
               </TouchableOpacity>
             </View>
             <TouchableOpacity 
@@ -275,7 +276,7 @@ const styles = ScaledSheet.create({
   },
   connectAccount : {
     borderRadius : 100,
-    borderColor : Colors['white-3'],
+    borderColor : Colors['black-1'],
     borderStyle : "solid",
     borderWidth : 2,
     width : 40,

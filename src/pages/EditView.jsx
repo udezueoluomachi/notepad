@@ -28,7 +28,7 @@ function EditView({route}) {
     if(/*title.trim() != "" && note.trim() != ""*/ true) {
       //save
       if(noteIndex != "new") {
-        notes[noteIndex]. date = time
+        notes[noteIndex].date = time
         notes[noteIndex].title = title
         notes[noteIndex].note = note
         await setItem("notes", JSON.stringify(notes.reverse()))

@@ -33,7 +33,7 @@ const Search = () => {
                             <DisplayCard key={data.reverse().indexOf(content)} index={data.reverse().indexOf(content)}
                               title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}
                               note={!content.title ? "" : content.note.slice(0, 40).trim()}
-                              time={moment(new Date(content.date)).calendar()}
+                              time={moment(new Date(content.date)).fromNow()}
                             />
                           )
                         }
