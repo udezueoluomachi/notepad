@@ -89,9 +89,9 @@ Longpress a note to delete it.`
       setNotesToDisplay(listOfNotes.map(content => {
         if((content.title || content.note ) && content.deleted != true) {
           return (
-            <DisplayCard key={listOfNotes.indexOf(content)} index={listOfNotes.indexOf(content)}
+            <DisplayCard key={listOfNotes.indexOf(content)} data={content} index={listOfNotes.indexOf(content)}
               title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}
-              note={!content.title ? "" : content.note.slice(0, 40).trim()}
+              note={new String(!content.title ? "" : content.note.slice(0, 40).trim()).replace(/\n/, "_'")}
               time={moment(new Date(content.date)).calendar()}
               onLongPress={() => {
                 setIndex(listOfNotes.indexOf(content));
@@ -164,7 +164,7 @@ Longpress a note to delete it.`
           </View>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{marginTop : 22, paddingHorizontal : 13}}
+            style={{marginTop : 5, paddingHorizontal : 13}}
             contentInsetAdjustmentBehavior="automatic"  refreshControl={
               <RefreshControl refreshing={refreshing}
               colors={["#000000"]}
@@ -255,7 +255,7 @@ const styles = ScaledSheet.create({
   NewNoteBtn : {
     height : "43@vs",
     width : "43@vs",
-    backgroundColor : Colors['cream'],
+    backgroundColor : Colors['black-1'],
     borderRadius : 100,
     position : "absolute",
     left : "43%",

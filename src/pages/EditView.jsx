@@ -21,7 +21,7 @@ function EditView({route}) {
   const [note, setNote] = useState("")
   const [time, setTime] = useState(new Date().toString())
 
-  const {noteIndex} = route.params;
+  const {noteIndex, data} = route.params;
 
   const saveNote = async () => {
     const notes = JSON.parse(await getItem("notes")).reverse();
@@ -48,15 +48,13 @@ function EditView({route}) {
 
   useEffect(() => {
     (async () => {
-      const notes = JSON.parse(await getItem("notes")).reverse();
       if(noteIndex != "new") {
-        const content = notes[noteIndex]
-        setTime(content.date)
-        setTitle(content.title)
-        setNote(content.note)
+        setTime(data.date)
+        setTitle(data.title)
+        setNote(data.note)
       }
       else {
-        notes.reverse();
+        const notes = JSON.parse(await getItem("notes"));
         notes.push({
           id : random(),
           date : time,
@@ -141,8 +139,9 @@ const styles = ScaledSheet.create({
     opacity : 0.7,
     fontFamily : "Inter-Variable",
     fontWeight : 'regular',
-    height: "auto",
+    height : "82%",
     width: "100%",
+    textAlignVertical:'top'
   }
 })
 

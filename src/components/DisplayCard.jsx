@@ -3,7 +3,7 @@ import { ScaledSheet } from 'react-native-size-matters';
 import Colors from "../../color.config";
 import { useNavigation } from "@react-navigation/native";
 
-const DisplayCard = ({title, note, time, index, onLongPress}) => {
+const DisplayCard = ({title, note, time, index, onLongPress, data}) => {
     const navigation = useNavigation();
 
     return (
@@ -11,7 +11,7 @@ const DisplayCard = ({title, note, time, index, onLongPress}) => {
             <TouchableOpacity 
                 style={styles.card}
                 activeOpacity={0.7}
-                onPress={() => navigation.navigate("EditView", {noteIndex : index})}
+                onPress={() => navigation.navigate("EditView", {noteIndex : index, data})}
                 onLongPress={onLongPress}
             >
             <Text style={styles.title}>
