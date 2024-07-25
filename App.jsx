@@ -2,6 +2,7 @@ import { StatusBar } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from './src/pages/home';
 import EditView from './src/pages/EditView';
 import Search from './src/pages/Search';
@@ -20,6 +21,7 @@ function App() {
         backgroundColor={Colors['white-1']}
         barStyle="dark-content"
       />
+      <GestureHandlerRootView>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown:false }}>
           <Stack.Screen name='Home' component={Home} />
@@ -30,6 +32,7 @@ function App() {
           <Stack.Screen name='Splash' component={Splash} />
         </Stack.Navigator>
       </NavigationContainer>
+      </GestureHandlerRootView>
       <Toast position='bottom' />
     </>
   );

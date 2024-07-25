@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
-  RefreshControl
+  RefreshControl,
+  Image
 } from 'react-native';
 import Colors from '../../color.config';
 import {useNavigation } from '@react-navigation/native';
@@ -19,6 +20,7 @@ import {setItem, getItem} from "../functions/encrypted-storage"
 import moment from 'moment';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
+import string from "random-string-generator"
 
 function Home({route}) {
   const listOfNotes = []
@@ -31,7 +33,7 @@ function Home({route}) {
     fontSize : 14,
     marginTop : vs(190)
   }}>Your notes would appear here. Click the "+" button to create a new note</Text>)
-  const [itemIndex, setIndex] = useState(0);
+  
   const deleteNote = async (index) => {
     const notes = JSON.parse(await getItem("notes")).reverse()
     notes[index].deleted = true;
@@ -94,9 +96,8 @@ Longpress a note to delete it.`
               title={!content.title ? content.note.slice(0, 40).trim() : content.title.slice(0, 40).trim()}
               note={new String(!content.title ? "" : content.note.slice(0, 40).trim()).replace(/\n/, "_'")}
               time={moment(new Date(content.date)).fromNow()}
-              onLongPress={() => {
-                setIndex(listOfNotes.indexOf(content));
-                setModalVisibility(true)
+              onswipe={() => {
+                deleteNote(listOfNotes.indexOf(content))
               }}
             />
           )
@@ -107,35 +108,6 @@ Longpress a note to delete it.`
 
   return (
     <SafeAreaView>
-      
-      <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      >
-          <View style={{backgroundColor : `${Colors["black-1"]}33`, width : "100%", height : "100%"}}>
-              <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                      <Text style={styles.modalText}>Delete Note ?</Text>
-                      <View style={{flexDirection : "row", width : "auto"}}>
-                          <TouchableOpacity
-                          style={[styles.button, styles.buttonOpen, {marginHorizontal : 10}]}
-                          onPress={() => {
-                            deleteNote(itemIndex)
-                            setModalVisibility(false)
-                          }} activeOpacity={0.7}>
-                              <Text style={styles.textStyle}>Delete</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                          style={[styles.button, styles.buttonClose, {marginHorizontal : 10}]}
-                          onPress={() => setModalVisibility(false)} activeOpacity={0.7}>
-                              <Text style={styles.textStyle}>Cancel</Text>
-                          </TouchableOpacity>
-                      </View>
-                  </View>
-              </View>
-          </View>
-      </Modal>
       <View
         style={{backgroundColor : Colors['white-1'], height : "100%", paddingTop : 22}}
         >
@@ -151,7 +123,7 @@ Longpress a note to delete it.`
               style={styles.connectAccount}
               onPress={() => handleSignin()}
                activeOpacity={0.6}>
-                <Iconify icon='fa-regular:user' size={20} color={Colors['black-1']} />
+                <Iconify icon='simple-icons:clarifai' size={25} color={Colors['black-1']} />
               </TouchableOpacity>
             </View>
             <TouchableOpacity 

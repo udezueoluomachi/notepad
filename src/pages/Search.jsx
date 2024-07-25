@@ -4,7 +4,7 @@ import { ScaledSheet } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 import Colors from "../../color.config";
 import { Iconify } from "react-native-iconify";
-import DisplayCard from "../components/DisplayCard";
+import {DisplayCardStatic as DisplayCard} from "../components/DisplayCard";
 import search from "../functions/search";
 import { getItem } from "../functions/encrypted-storage";
 import moment from "moment";
